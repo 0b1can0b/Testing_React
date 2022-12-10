@@ -46,6 +46,8 @@ const App = () => {
     );
   }, [clickEffect, IsNavHovered, active]);
 
+  const [activeItemName, setActiveItemName] = useState(navItems[0]);
+
   return (
     <div className="app">
       <div
@@ -56,8 +58,8 @@ const App = () => {
         <div
           className={indicatorClass}
           style={{
-            left: (!IsHovered ? active.left : false) || hovered.left,
-            width: (!IsHovered ? active.width : false) || hovered.width,
+            left: !IsHovered ? active.left : hovered.left,
+            width: !IsHovered ? active.width : hovered.width,
             opacity: active.left !== null && active.width !== null && 1,
           }}
         />
@@ -65,9 +67,12 @@ const App = () => {
           return (
             <div
               key={i}
-              className="item"
+              className={activeItemName === e ? "item active" : "item"}
               onMouseEnter={handelItemMouseEnter}
-              onClick={handelClick}
+              onClick={(i) => {
+                handelClick(i);
+                setActiveItemName(e);
+              }}
               onMouseLeave={handelItemMouseLeave}
             >
               {e}
