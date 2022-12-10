@@ -6,12 +6,23 @@ console.clear();
 const navItems = ["Home", "About", "Services", "Portfolio", "FAQs", "Contact"];
 
 const App = () => {
+  const [IsNavHovered, setIsNavHovered] = useState(false);
+
+  const handelNavMouseEnter = () => {
+    setTimeout(() => {
+      setIsNavHovered(true);
+    }, 250);
+  };
+  const handelNavMouseLeave = () => {
+    setIsNavHovered(false);
+  };
+
   const [IsHovered, setIsHovered] = useState(false);
   const [hovered, setHovered] = useState({ left: 0, width: 0 });
   const [active, setActive] = useState({ left: null, width: null });
   const [clickEffect, setClickEffect] = useState(false);
 
-  const handelMouseEnter = (e) => {
+  const handelItemMouseEnter = (e) => {
     setIsHovered(true);
     setHovered({ left: e.target.offsetLeft, width: e.target.offsetWidth });
   };
@@ -22,15 +33,28 @@ const App = () => {
       setClickEffect(false);
     }, 500);
   };
-  const handelMouseLeave = () => {
+  const handelItemMouseLeave = () => {
     setIsHovered(false);
   };
 
+  const [indicatorClass, setIndicatorClass] = useState("indicator");
+  useEffect(() => {
+    setIndicatorClass(
+      `indicator${clickEffect ? " clickEffect" : ""}${
+        IsNavHovered ? " navHovered" : ""
+      }${active.left !== null && active.width !== null ? " itemActive" : ""}`
+    );
+  }, [clickEffect, IsNavHovered, active]);
+
   return (
     <div className="app">
-      <div className="nav">
+      <div
+        className="nav"
+        onMouseEnter={handelNavMouseEnter}
+        onMouseLeave={handelNavMouseLeave}
+      >
         <div
-          className={clickEffect ? "indicator clickEffect" : "indicator"}
+          className={indicatorClass}
           style={{
             left: (!IsHovered ? active.left : false) || hovered.left,
             width: (!IsHovered ? active.width : false) || hovered.width,
@@ -42,9 +66,9 @@ const App = () => {
             <div
               key={i}
               className="item"
-              onMouseEnter={handelMouseEnter}
+              onMouseEnter={handelItemMouseEnter}
               onClick={handelClick}
-              onMouseLeave={handelMouseLeave}
+              onMouseLeave={handelItemMouseLeave}
             >
               {e}
             </div>
