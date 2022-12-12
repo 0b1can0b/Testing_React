@@ -7,7 +7,7 @@ import "sanitize.css/forms.css";
 import "sanitize.css/typography.css";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <StrictMode>
-    <App />
-  </StrictMode>
+  // <StrictMode>
+  <App />
+  // </StrictMode>
 );
